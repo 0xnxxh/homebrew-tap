@@ -1,11 +1,21 @@
 cask "clashbar" do
   arch arm: "apple-silicon", intel: "intel"
 
-  version "0.2.3"
-  sha256 arm:   "45787def05fb2e1669e60efc041e79d52f0ce2d14c13b7e61d9468d25f730590",
-         intel: "15d9576149670beeb352ab15373b0175921348fc4e5987c4afc169e550624276"
+  has_core = File.exist?(File.expand_path("~/Library/Application Support/clashbar/core/mihomo"))
+  core_suffix = has_core ? "-no-core" : ""
 
-  url "https://github.com/Sitoi/ClashBar/releases/download/v#{version}/ClashBar-#{version}-#{arch}.dmg"
+  version "0.2.3"
+
+  on_arm do
+    sha256 has_core ? "7d95e68c50c99345aaf1054ece05461c4f7a23417d0c92f0733ce23831ab4ae4" \
+                    : "45787def05fb2e1669e60efc041e79d52f0ce2d14c13b7e61d9468d25f730590"
+  end
+  on_intel do
+    sha256 has_core ? "a851627ed4f3b7638458c79fb022e939de580c726bfe889c14b6f2d000c0206f" \
+                    : "15d9576149670beeb352ab15373b0175921348fc4e5987c4afc169e550624276"
+  end
+
+  url "https://github.com/Sitoi/ClashBar/releases/download/v#{version}/ClashBar-#{version}-#{arch}#{core_suffix}.dmg"
   name "ClashBar"
   desc "Menu bar proxy client based on Mihomo"
   homepage "https://github.com/Sitoi/ClashBar"
