@@ -37,11 +37,7 @@ cask "clashbar" do
   end
 
   uninstall launchctl: "com.clashbar.helper",
-            quit:      "com.clashbar",
-            delete:    [
-              "/Library/LaunchDaemons/com.clashbar.helper.plist",
-              "/Library/PrivilegedHelperTools/com.clashbar.helper",
-            ]
+            quit:      "com.clashbar"
 
   zap trash: [
     "~/Library/Application Support/com.clashbar",
