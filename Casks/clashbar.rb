@@ -4,15 +4,15 @@ cask "clashbar" do
   has_core = File.exist?(File.expand_path("~/Library/Application Support/clashbar/core/mihomo"))
   core_suffix = has_core ? "-no-core" : ""
 
-  version "0.3.0"
+  version "0.3.1"
 
   on_arm do
-    sha256 has_core ? "4aaebb8bda276219ff8527a887212a5ec36965d6496b4b677299745f7d30dc35" \
-                    : "4f586c168ab44125dbc8377dec6c7d058af5dffef80869a3afac60f26201741e"
+    sha256 has_core ? "b01083f8bdfcd44475319859c3c9f669133f94a44b3bed48d4d7110c9212ab93" \
+                    : "30d3a66a39a51b13673cf88f5961a19bba3045ebe4a984637a12c30a1926a493"
   end
   on_intel do
-    sha256 has_core ? "18f9382a1b9db8e6bdd904de6f708ac37d8731591d3cc2437d9f4cfc4ff2b744" \
-                    : "2bed157a12908fc8977d1505b03f517c1a488886397425bfab6fd9e0cfb3aea2"
+    sha256 has_core ? "05f9588b7af9e0643d35e7b4b292136e43e9a1da2b6e6fecdff6648233f964e8" \
+                    : "4e2d01b864c565a6cca971263674cd3b0a98b765acf5f7ca80d232c7b611e1bd"
   end
 
   url "https://github.com/Sitoi/ClashBar/releases/download/v#{version}/ClashBar-#{version}-#{arch}#{core_suffix}.dmg"
