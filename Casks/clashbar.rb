@@ -29,11 +29,46 @@ cask "clashbar" do
 
   app "ClashBar.app"
 
-  postflight do
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-cr", "{{appdir}}/ClashBar.app"]
 
-    puts "Run `xattr -cr /Applications/ClashBar.app` for the APP, see more details in https://github.com/Sitoi/ClashBar?tab=readme-ov-file#-%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98."
+    run "/bin/launchctl", args: ["bootout", "system/com.clashbar.helper"],
+        sudo: true, must_succeed: false
+    run "/usr/bin/install",
+        args: ["-d", "-o", "root", "-g", "wheel", "-m", "755", "/Library/PrivilegedHelperTools"],
+        sudo: true
+    run "/usr/bin/install",
+        args: ["-d", "-o", "root", "-g", "wheel", "-m", "755", "/Library/LaunchDaemons"],
+        sudo: true
+    run "/usr/bin/install",
+        args: ["-o", "root", "-g", "wheel", "-m", "755",
+               "{{appdir}}/ClashBar.app/Contents/Library/HelperTools/com.clashbar.helper",
+               "/Library/PrivilegedHelperTools/com.clashbar.helper"],
+        sudo: true
+    run "/usr/bin/install",
+        args: ["-o", "root", "-g", "wheel", "-m", "644",
+               "{{appdir}}/ClashBar.app/Contents/Library/LaunchDaemons/com.clashbar.helper.plist",
+               "/Library/LaunchDaemons/com.clashbar.helper.plist"],
+        sudo: true
+    run "/usr/bin/plutil",
+        args: ["-remove", "BundleProgram", "/Library/LaunchDaemons/com.clashbar.helper.plist"],
+        sudo: true
+    run "/usr/bin/plutil",
+        args: ["-insert", "Program", "-string", "/Library/PrivilegedHelperTools/com.clashbar.helper",
+               "/Library/LaunchDaemons/com.clashbar.helper.plist"],
+        sudo: true
+    run "/bin/launchctl",
+        args: ["bootstrap", "system", "/Library/LaunchDaemons/com.clashbar.helper.plist"],
+        sudo: true
+  end
 
-    system_command "/usr/bin/xattr", args: ["-cr", "#{appdir}/ClashBar.app"], sudo: false
+  uninstall_postflight_steps do
+    run "/bin/launchctl", args: ["bootout", "system/com.clashbar.helper"],
+        sudo: true, must_succeed: false
+    run "/bin/rm",
+        args: ["-f", "/Library/LaunchDaemons/com.clashbar.helper.plist",
+               "/Library/PrivilegedHelperTools/com.clashbar.helper"],
+        sudo: true, must_succeed: false
   end
 
   uninstall launchctl: "com.clashbar.helper",
