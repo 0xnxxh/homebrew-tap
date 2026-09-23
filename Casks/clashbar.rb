@@ -7,12 +7,12 @@ cask "clashbar" do
   version "0.3.4"
 
   on_arm do
-    sha256 has_core ? "60f6ce2250a32176f818b3fbdc53b26d23c23a66ca028cc7cf080adaf15bf701" \
-                    : "4d6da06cfd89c8081516fbdf643f3de8293f6404a1dd20f956b25ea9a8c56f4b"
+    sha256 has_core ? "b4ca70d9665e3ac376833c9551c1dbef5cad70f82454ed9ecfd7af28d1880780" \
+                    : "2b4f343f1a93f641b4c52efa09f9a2a189bb843619fba9ea652a7f126ffe3fc7"
   end
   on_intel do
-    sha256 has_core ? "98fe0c7781eedcd476ed4e15155d32ebe593221f83040b8f3ac5ca5a498af7ac" \
-                    : "d7944396e75812fe70be271d5df4e9a206f16ae9c8ceac655609fc3ee3ab4df2"
+    sha256 has_core ? "41a4b61e6a5a85d80c0706f680363ad2caba1a7dd19bb29689244bd551409a88" \
+                    : "b410987cb6f923264810787ca3f5ae5a408269eef4c6934a85857ff3740989e2"
   end
 
   url "https://github.com/Sitoi/ClashBar/releases/download/v#{version}/ClashBar-#{version}-#{arch}#{core_suffix}.dmg"
