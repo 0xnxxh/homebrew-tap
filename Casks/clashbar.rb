@@ -31,35 +31,6 @@ cask "clashbar" do
 
   postflight_steps do
     run "/usr/bin/xattr", args: ["-cr", "{{appdir}}/ClashBar.app"]
-
-    run "/bin/launchctl", args: ["bootout", "system/com.clashbar.helper"],
-        sudo: true, must_succeed: false
-    run "/usr/bin/install",
-        args: ["-d", "-o", "root", "-g", "wheel", "-m", "755", "/Library/PrivilegedHelperTools"],
-        sudo: true
-    run "/usr/bin/install",
-        args: ["-d", "-o", "root", "-g", "wheel", "-m", "755", "/Library/LaunchDaemons"],
-        sudo: true
-    run "/usr/bin/install",
-        args: ["-o", "root", "-g", "wheel", "-m", "755",
-               "{{appdir}}/ClashBar.app/Contents/Library/HelperTools/com.clashbar.helper",
-               "/Library/PrivilegedHelperTools/com.clashbar.helper"],
-        sudo: true
-    run "/usr/bin/install",
-        args: ["-o", "root", "-g", "wheel", "-m", "644",
-               "{{appdir}}/ClashBar.app/Contents/Library/LaunchDaemons/com.clashbar.helper.plist",
-               "/Library/LaunchDaemons/com.clashbar.helper.plist"],
-        sudo: true
-    run "/usr/bin/plutil",
-        args: ["-remove", "BundleProgram", "/Library/LaunchDaemons/com.clashbar.helper.plist"],
-        sudo: true
-    run "/usr/bin/plutil",
-        args: ["-insert", "Program", "-string", "/Library/PrivilegedHelperTools/com.clashbar.helper",
-               "/Library/LaunchDaemons/com.clashbar.helper.plist"],
-        sudo: true
-    run "/bin/launchctl",
-        args: ["bootstrap", "system", "/Library/LaunchDaemons/com.clashbar.helper.plist"],
-        sudo: true
   end
 
   uninstall_postflight_steps do
@@ -67,7 +38,8 @@ cask "clashbar" do
         sudo: true, must_succeed: false
     run "/bin/rm",
         args: ["-f", "/Library/LaunchDaemons/com.clashbar.helper.plist",
-               "/Library/PrivilegedHelperTools/com.clashbar.helper"],
+               "/Library/PrivilegedHelperTools/com.clashbar.helper",
+               "/Library/PrivilegedHelperTools/com.clashbar.helper.version"],
         sudo: true, must_succeed: false
   end
 
